@@ -1,0 +1,102 @@
+body {
+    background-color:  #fdf6ec;
+    font-family: Poppins, sans-serif;
+}
+
+/* Will help center the card element vertically and horizontally */
+.page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Ensure container takes up full viewport height */
+}
+  
+.card {
+    background-color: #ffb6c1;
+    border-radius: 10px;
+    height: 50vh;
+    width: 40vh;  /* unset for media query */
+    padding: 80px 52px;
+    /*padding: 2px 40px;
+    height: 400px;
+    width: 200px;*/
+}
+
+/* letter */
+.question {
+    color: #e74c3c;
+    font-weight: 800;
+    font-size: 52px;
+    justify-self: center;
+}
+  
+.button-box {
+    margin: 0px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.button-box-yes {
+    width: 100px; /* todo: change for smaller screens */
+    height: 50px;
+}
+
+.button-box-no {
+    width: 50px;  /* todo: change for smaller screens */
+    height: 35px;
+    margin-right: 17px;
+}
+
+.yes {
+    border: none;
+    border-radius: 6px;
+    background-color: #e74c3c;
+    padding: 10px 12px;
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+#noButton {
+    position: absolute;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 6px 10px;
+    color: #e74c3c;
+    cursor: pointer;
+    opacity: 1;
+}
+
+/* Yes GIF */
+.iDo {
+    margin: auto auto;
+}
+
+.yay {
+    color: #e74c3c;
+    font-size: 50px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.owlGIF img {
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width: 550px) {
+    .card {
+        width: 300px;
+        padding: 20px 0px 0px 0px;
+    }
+    .question {
+        color: #e74c3c;
+        font-weight: 800;
+        font-size: 34px;
+        justify-self: center;
+    }
+}

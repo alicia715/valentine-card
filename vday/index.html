@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<div class="page">
+    <div class="card" id="card">
+        <!--- Letter --->
+        <div class="letter">
+            <h1 class="question">Will you <br>be my <br>valentine?</h1>
+
+            <div class="button-box" id="button-container">
+                <div class="button-box-yes">
+                    <button type="button" class="yes" id="yesButton">YES!</button>
+                </div>
+                <div class="button-box-no">
+                    <img src="nian-gao.jpg" id="niangao" width="100px" height="100px" style="display:none;">
+                    <img src="glutinous-rice-balls.jpg" id="glutinous" width="100px" height="100px" style="display:none;">
+                    <button type="button" class="no" id="noButton">no</button>
+                </div>
+            </div>
+        </div>
+        <!--- /Letter --->
+
+        <!--- Yay --->
+        <div class="iDo" style="display: none;">
+            <div class="owlGIF">
+                <img src="owl-snowy.gif">
+            </div>
+            <div class="yay">Yay!</div>
+        </div>
+        <!--- /Yay --->
+    </div>
+</div>
+
+<body>
+    <script>
+        /* TODO:    
+            * Figure out card dimensions... for mobile perhaps?
+        */
+        $('document').ready(function(){
+            const yepButton = $("#yesButton");
+            const yesButtons = $(".yes");
+            const nopeButton = $("#noButton");
+            const card = $("#card");
+            let action = randomintFromInterval(1, 8);
+
+            // clicking any yes button will give us the GIF
+            $(document).on("click", '.yes', function() {
+                $(".letter").css("display", "none");
+                $(".iDo").css("display", "block");
+                $(".yes").css("display", "none");
+            })
+        
+            // clicking no will trigger an action
+            nopeButton.on("click", function() {
+
+                if (action == 1 || action == 2) {
+                    move(button=nopeButton, container=card, continuously=false);
+                    fadeButton(button=nopeButton);
+                } else if (action == 3 || action == 4) {
+                    move(button=nopeButton, container=card, continuously=true);
+                } else if (action == 5 || action == 6) {
+                    cloneYesButton(container=card);
+                } else if (action == 7) {
+                    replaceWithGlutinous(nopeButton);
+                } else if (action == 8) {
+                    replaceWithNianGao(nopeButton);
+                }
+            })
+        });
+
+        /**
+         * Returns a random integer between min and max
+         */
+        function randomintFromInterval(min, max) {
+            randomNum = Math.random();  // generate a floating-point random num between 0 (inclusive) and 1 (exclusive)
+            numsInBetween = max - min + 1;
+            return Math.floor(randomNum * numsInBetween + 1); // round down to nearest int
+        }
+
+        /**
+         * Decreases the opacity of the provided button element 
+         * @button a jquery element
+         */
+        function fadeButton(button) {
+            var buttonOpacity = button.css("opacity");
+                var newOpacity = buttonOpacity - 0.2;
+                if (newOpacity < 0.2) {
+                    button.css("display", "none");
+                }
+                button.css("opacity", newOpacity);
+        }
+
+        /**
+         * Moves the provided element in a random position within the container element
+         */
+         function move(button, container, continuously=false) {
+            let containerWidth = container.width() - button.width();
+            let containerHeight = container.height() - button.height();
+            let containerOffset = container.offset();
+
+            let randomTop = Math.floor(Math.random() * containerHeight) + containerOffset['top'];
+            let randomLeft = Math.floor(Math.random() * containerWidth) + containerOffset['left'];
+
+            if (continuously == false) {
+                button.animate({
+                    top: randomTop,
+                    left: randomLeft
+                }, 500); // Animation duration of 500 milliseconds
+            } else {
+                button.animate({
+                    top: randomTop,
+                    left: randomLeft
+                }, 1000, function() {
+                    move(button, container, continuously);
+                }); // Animation duration of 1000 milliseconds calls itself again, creating a continuous effect
+            }
+        }
+
+        /**
+         * Clones the Yes Button inside the container
+         */
+        function cloneYesButton(container) {
+            let yepButton = $("#yesButton");
+            numYesButtons = $(".yes").length;
+
+            for (let i=0; i < numYesButtons; i++) {
+                newButtonId = "yesButton-" + (numYesButtons + 1);
+
+                let containerWidth = container.width();
+                let containerHeight = container.height();
+                let containerOffset = container.offset();
+
+                // Generate random position within the container bounds
+                let randomTop = Math.floor(Math.random() * containerHeight) + containerOffset['top'];
+                let randomLeft = Math.floor(Math.random() * containerWidth) + containerOffset['left'];
+
+                // Clone the element and position it randomly
+                var $clonedElement = yepButton.clone();
+                $clonedElement.css({
+                    top: randomTop,
+                    left: randomLeft,
+                    position: 'absolute'
+                });
+                $clonedElement.attr('id', newButtonId);
+
+                // Append the cloned element to the container
+                container.append($clonedElement);
+            }
+        }
+
+        /**
+         * Replace the jquery element with glutinous rice balls
+         */
+        function replaceWithGlutinous(element) {
+            element.css("display", "none");
+            $("#glutinous").css("display", "block");
+        }
+
+        /**
+         * Replace the jquery element with nian gao
+         */
+        function replaceWithNianGao(element) {
+            element.css("display", "none");
+            $("#niangao").css("display", "block");
+        }
+
+        /**
+         * Not used: Makes the provided button element bigger within the container
+         */
+        function grow(button, container) {
+            scale = 1.5;
+
+            let biggerWidth = button.width() * scale;
+            let biggerHeight = button.height() * scale;
+
+            let containerWidth = container.width();
+            let containerHeight = container.height();
+            let containerOffset = container.offset();
+
+            if (biggerWidth > containerWidth) {
+                biggerWidth = containerWidth;
+            }
+            if (biggerHeight > containerHeight) {
+                biggerHeight = containerHeight;
+            }
+
+            button.width(biggerWidth);
+            button.height(biggerHeight);
+        }
+    </script>
+</body>
