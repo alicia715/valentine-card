@@ -1,3 +1,3 @@
 # Valentine's Day Card
 
-<img src="../valentine-card.png" width="128"/>
+https://github.com/github/valentine-card/valentine-card.png
